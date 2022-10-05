@@ -1,0 +1,473 @@
+
+#+TITLE: Drawing Graphs using Dot and Graphviz  
+#+DATE: <2013-10-21 Mon>
+#+AUTHOR: Tony Ballantyne
+#+EMAIL: tony@tonyballantyne.com
+#+OPTIONS: ':nil *:t -:t ::t <:t H:3 \n:nil ^:t arch:headline
+#+OPTIONS: author:t c:nil creator:comment d:(not LOGBOOK) date:t e:t
+#+OPTIONS: email:nil f:t inline:t num:t p:nil pri:nil stat:t tags:t
+#+OPTIONS: tasks:t tex:t timestamp:t toc:t todo:t |:t
+#+CREATOR: Emacs 23.3.1 (Org mode 8.0.2)
+#+DESCRIPTION:
+#+EXCLUDE_TAGS: noexport
+#+KEYWORDS:
+#+LANGUAGE: en
+#+SELECT_TAGS: export
+
+
+
+
+* License
+#+BEGIN_QUOTE
+Copyright (C)  2013, 2014, 2015, 2016, 2017, 2018  Tony Ballantyne.
+Permission is granted to copy, distribute and/or modify this document under the terms of the GNU Free Documentation License, Version 1.3 or any later version published by the Free Software Foundation; with no Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.
+  
+Code in this document is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+  
+This code is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+#+END_QUOTE
+* Introduction
+** What is DOT?
+DOT is a plain text graph description language. It is a simple way of describing graphs that both humans and computer programs can read.
+** What is Graphviz?
+Graphviz is open source graph visualization software. Graph visualization is a way of representing structural information as diagrams of abstract graphs and networks.
+** Who is this document for?
+This document was originally written as quick reference for myself.  It was then extended to become a tutorial for Computing students.  It's now offered to anyone who wants to learn DOT by example. 
+** Related Materials
+You can find links to similar documents posts at my blog [[https://tech.tonyballantyne.com][tech.tonyballantyne.com]]
+
+If you have stumbled across this document by accident whilst looking for my work as an SF and Fantasy writer, the following links may be more useful to you
+
+- [[https://tonyballantyne.com][tonyballantyne.com]]: Blog about my novels and short stories
+- [[https://tonyballantyne.com/emacs.html][Emacs Tutorial]]  : A brief introduction to Emacs for writers
+- [[http://tonyballantyne.com/EmacsWritingTips.html][My Emacs Writing Setup]] : How I use Emacs Org Mode to write novels and short stories 
+
+* Setup
+You will need to have the Graphviz suite of programs installed on your computer to follow this tutorial.  Graphiz can be downloaded for free from the Graphviz site: http://www.graphviz.org/Home.php
+* Basic Examples
+** Simple Graph
+#+begin_example
+graph graphname { 
+		a -- b; 
+		b -- c;
+		b -- d;
+		d -- a;
+	} 
+#+end_example
+#+ATTR_LaTeX: width=5cm
+#+begin_src dot :file ./img/example1.png :cmdline -Kdot -Tpng
+graph graphname {
+		a -- b; 
+		b -- c;
+		b -- d;
+		d -- a;
+	} 
+#+end_src
+** Same Graph, Different Layout
+#+begin_example
+graph graphname {
+		rankdir=LR;  //Rank Direction Left to Right
+		a -- b; 
+		b -- c;
+		b -- d;
+		d -- a;
+	} 
+#+end_example
+#+begin_src dot :file ./img/example1a.png :cmdline -Kdot -Tpng
+graph graphname {
+		rankdir=LR:  //Rank Direction Left to Right
+		a -- b; 
+		b -- c;
+		b -- d;
+		d -- a;
+	} 
+#+end_src
+** Simple Digraph (Directional Graph)
+#+begin_example
+digraph graphname{
+		a -> b;
+		b -> c;
+		a -> c;
+	}
+#+end_example
+#+ATTR_LaTeX: width=4cm
+#+begin_src dot :file ./img/example2.png :cmdline -Kdot -Tpng
+digraph graphname{
+		a -> b;
+		b -> c;
+		a -> c;
+	}
+#+end_src
+** Simple Digraph with Labels
+#+begin_example
+digraph graphname{
+
+		T [label="Teacher"]      // node T
+		P [label="Pupil"]  // node P
+
+		T->P [label="Instructions", fontcolor=darkgreen] // edge T->P
+}
+#+end_example
+#+ATTR_LaTeX: width=5cm
+#+begin_src dot :file ./img/example3.png :cmdline -Kdot -Tpng
+digraph graphname{
+
+T [label="Teacher"]      // node T
+P [label="Pupil"]  // node P
+
+T->P [label="Instructions", fontcolor=darkgreen] // edge T->P
+
+}
+#+end_src
+** Same Graph, Different Shape and Colour 
+#+begin_example
+digraph graphname {
+		T [label="Teacher" color=Blue, fontcolor=Red, fontsize=24, shape=box]      // node T
+		P [label="Pupil" color=Blue, fontcolor=Red, fontsize=24, shape=box]  // node P
+
+		T->P [label="Instructions", fontcolor=darkgreen] // edge T->P
+}
+#+end_example
+#+ATTR_LaTeX: width=5cm
+#+begin_src dot :file ./img/example3a.png :cmdline -Kdot -Tpng
+digraph graphname {
+T [label="Teacher" color=Blue, fontcolor=Red, fontsize=24, shape=box]      // node T
+P [label="Pupil" color=Blue, fontcolor=Red, fontsize=24, shape=box]  // node P
+
+T->P [label="Instructions", fontcolor=darkgreen] // edge T->P
+}
+#+end_src
+
+Here are some of the shapes you can use... box, polygon, ellipse, oval, circle, point, egg, triangle, plaintext, diamond, trapezium, parallelogram, house, pentagon, hexagon, septagon, octagon, doublecircle, doubleoctagon, tripleoctagon
+
+There are lots more available here...
+http://www.graphviz.org/content/node-shapes
+** Summary 
+#+begin_example
+digraph summary{
+		start [label="Start with a Node"]
+		next [label="Choose your shape", shape=box]
+		warning [label="Don't go overboard", color=Blue, fontcolor=Red,fontsize=24,style=filled, fillcolor=green,shape=octagon]
+		end [label="Draw your graph!", shape=box, style=filled, fillcolor=yellow]
+
+		start->next
+		start->warning 
+		next->end [label="Getting Better...", fontcolor=darkblue]
+
+}
+#+end_example
+#+begin_src dot :file ./img/summary.png :cmdline -Kdot -Tpng
+digraph summary{
+start [label="Start with a Node"]
+next [label="Choose your shape", shape=box]
+warning [label="Don't go overboard", color=Blue, fontcolor=Red,fontsize=24,style=filled, fillcolor=green,shape=octagon]
+end [label="Draw your graph!", shape=box, style=filled, fillcolor=yellow]
+
+start->next
+start->warning 
+next->end [label="Getting Better...", fontcolor=darkblue]
+
+}
+#+end_src
+* More Advanced
+** Saving Time
+It takes time defining each node individually. The following way is quicker
+#+begin_example
+digraph hierarchy {
+
+		nodesep=1.0 // increases the separation between nodes
+		
+		node [color=Red,fontname=Courier,shape=box] //All nodes will this shape and colour
+		edge [color=Blue, style=dashed] //All the lines look like this
+
+		Headteacher->{Deputy1 Deputy2 BusinessManager}
+		Deputy1->{Teacher1 Teacher2}
+		BusinessManager->ITManager
+		{rank=same;ITManager Teacher1 Teacher2}  // Put them on the same level
+}
+#+end_example
+#+begin_src dot :file ./img/example5.png :cmdline -Kdot -Tpng
+digraph hierarchy {
+
+nodesep=1.0 // increases the separation between nodes
+
+node [color=Red,fontname=Courier,shape=box] //All nodes will be this shape and colour
+edge [color=Blue, style=dashed] //All the lines look like this
+
+Headteacher->{Deputy1 Deputy2 BusinessManager}
+Deputy1->{Teacher1 Teacher2}
+BusinessManager->ITManager
+{rank=same;ITManager Teacher1 Teacher2}  // Put them on the same level
+}
+#+end_src
+** Records
+You can now use HTML to define these sort of blocks.  Find out more at http://www.graphviz.org/doc/info/shapes.html
+#+begin_example
+digraph structs {
+	node[shape=record]
+	struct1 [label="<f0> left|<f1> mid\ dle|<f2> right"];
+	struct2 [label="{<f0> one|<f1> two\n\n\n}" shape=Mrecord];
+	struct3 [label="hello\nworld |{ b |{c|<here> d|e}| f}| g | h"];
+	struct1:f1 -> struct2:f0;
+	struct1:f0 -> struct3:f1;
+}
+#+end_example
+#+begin_src dot :file ./img/struct.png :cmdline -Kdot -Tpng
+digraph structs {
+	node[shape=record]
+	struct1 [label="<f0> left|<f1> mid\ dle|<f2> right"];
+	struct2 [label="{<f0> one|<f1> two\n\n\n}" shape=Mrecord];
+	struct3 [label="hello\nworld |{ b |{c|<here> d|e}| f}| g | h"];
+	struct1:f1 -> struct2:f0;
+	struct1:f0 -> struct3:f1;
+
+}
+#+end_src
+* Some Example Graphs
+** Finite State Machine
+#+BEGIN_EXAMPLE
+digraph finite_state_machine {
+	rankdir=LR;
+	size="8,5"
+	node [shape = circle];
+	S0 -> S1 [ label = "Lift Nozzle" ]
+	S1 -> S0 [ label = "Replace Nozzle" ]
+	S1 -> S2 [ label = "Authorize Pump" ]
+	S2 -> S0 [ label = "Replace Nozzle" ]
+	S2 -> S3 [ label = "Pull Trigger" ]
+	S3 -> S2 [ label = "Release Trigger" ]
+}
+#+END_EXAMPLE
+#+begin_src dot :file ./img/petrol.png :cmdline -Kdot -Tpng
+digraph finite_state_machine {
+	rankdir=LR;
+	size="8,5"
+	node [shape = circle];
+	S0 -> S1 [ label = "Lift Nozzle" ]
+	S1 -> S0 [ label = "Replace Nozzle" ]
+	S1 -> S2 [ label = "Authorize Pump" ]
+	S2 -> S0 [ label = "Replace Nozzle" ]
+	S2 -> S3 [ label = "Pull Trigger" ]
+	S3 -> S2 [ label = "Release Trigger" ]
+}
+#+end_src
+
+** Data Flow Diagrams
+#+begin_example
+digraph dfd{	
+	node[shape=record]
+	store1 [label="<f0> left|<f1> Some data store"];
+	proc1 [label="{<f0> 1.0|<f1> Some process here\n\n\n}" shape=Mrecord];
+	enti1 [label="Customer" shape=box];
+	store1:f1 -> proc1:f0;
+	enti1-> proc1:f0;
+}
+#+end_example
+#+begin_src dot :file ./img/dfd1.png :cmdline -Kdot -Tpng
+digraph dfd{	
+	node[shape=record]
+	store1 [label="<f0> left|<f1> Some data store"];
+	proc1 [label="{<f0> 1.0|<f1> Some process here\n\n\n}" shape=Mrecord];
+	enti1 [label="Customer" shape=box];
+	store1:f1 -> proc1:f0;
+	enti1-> proc1:f0;
+}
+#+end_src
+** Data Flow Diagrams 2
+The following uses subgraphs to display different levels.  Note that subgraphs must start with the prefix cluster_ or they won't work.  It will only work with dot layout.
+#+begin_example
+  digraph dfd2{
+          node[shape=record]
+          subgraph level0{
+          enti1 [label="Customer" shape=box];
+          enti2 [label="Manager" shape=box];
+          }
+          subgraph cluster_level1{
+                          label ="Level 1";
+                          proc1 [label="{<f0> 1.0|<f1> One process here\n\n\n}" shape=Mrecord];
+                          proc2 [label="{<f0> 2.0|<f1> Other process here\n\n\n}" shape=Mrecord];
+                          store1 [label="<f0>    |<f1> Data store one"];
+                          store2 [label="<f0>   |<f1> Data store two"];
+			  {rank=same; store1, store2}
+  
+          }
+          enti1 -> proc1
+          enti2 -> proc2
+          store1 -> proc1
+          store2 -> proc2
+	  proc1 -> store2
+	  store2 -> proc1 
+  }
+#+end_example
+#+begin_src dot :file ./img/dfd2.png :cmdline -Kdot -Tpng
+  digraph dfd2{
+          node[shape=record]
+          subgraph level0{
+          enti1 [label="Customer" shape=box];
+          enti2 [label="Manager" shape=box];
+          }
+          subgraph cluster_level1{
+                          label ="Level 1";
+                          proc1 [label="{<f0> 1.0|<f1> One process here\n\n\n}" shape=Mrecord];
+                          proc2 [label="{<f0> 2.0|<f1> Other process here\n\n\n}" shape=Mrecord];
+                          store1 [label="<f0>    |<f1> Data store one"];
+                          store2 [label="<f0>   |<f1> Data store two"];
+			  {rank=same; store1, store2}
+  
+          }
+          enti1 -> proc1
+          enti2 -> proc2
+          store1 -> proc1
+          store2 -> proc2
+	  proc1 -> store2
+	  store2 -> proc1 
+  }
+#+end_src
+
+** Object Inheritance
+#+begin_example
+digraph obj{
+	node[shape=record];
+	rankdir="BT";
+	
+	teacher [label = "{<f0> Teacher|<f1> \n  |<f2> \n   }"];
+	course [label = "{<f0> Course|<f1> \n  |<f2> \n   }"];
+	student [label = "{<f0> Student|<f1> \n  |<f2> \n   }"];
+	lesson [label = "{<f0> Lesson |<f1> \n  |<f2> \n   }"];
+	tutorial [label = "{<f0> Tutorial|<f1> \n  |<f2> \n   }"];
+	assessment[label = "{<f0> Assessment|<f1> \n  |<f2> \n   }"];
+	coursework [label = "{<f0> Coursework|<f1> \n  |<f2> \n   }"];
+	exam [label = "{<f0> Exam|<f1> \n  |<f2> \n   }"];
+
+	{rank=same; teacher course student}
+
+	teacher->course [dir="forward",arrowhead="none",arrowtail="normal",headlabel="1",taillabel="1.."];
+	student->course [dir="forward",arrowhead="none",arrowtail="normal",headlabel="1",taillabel="1.."];
+ 	lesson->course [dir="forward",arrowhead="diamond",arrowtail="normal"];
+	tutorial->course [dir="forward",arrowhead="diamond",arrowtail="normal"];
+	assessment->course [dir="forward",arrowhead="diamond",arrowtail="normal"];
+	coursework->assessment;
+	exam->assessment;
+
+}
+#+end_example
+#+begin_src dot :file ./img/obj.png 
+digraph obj{
+	node[shape=record];
+	rankdir="BT";
+	
+	teacher [label = "{<f0> Teacher|<f1> \n  |<f2> \n   }"];
+	course [label = "{<f0> Course|<f1> \n  |<f2> \n   }"];
+	student [label = "{<f0> Student|<f1> \n  |<f2> \n   }"];
+	lesson [label = "{<f0> Lesson |<f1> \n  |<f2> \n   }"];
+	tutorial [label = "{<f0> Tutorial|<f1> \n  |<f2> \n   }"];
+	assessment[label = "{<f0> Assessment|<f1> \n  |<f2> \n   }"];
+	coursework [label = "{<f0> Coursework|<f1> \n  |<f2> \n   }"];
+	exam [label = "{<f0> Exam|<f1> \n  |<f2> \n   }"];
+
+	{rank=same; teacher course student}
+
+	teacher->course [dir="forward",arrowhead="none",arrowtail="normal",headlabel="1",taillabel="1.."];
+	student->course [dir="forward",arrowhead="none",arrowtail="normal",headlabel="1",taillabel="1.."];	
+ 	lesson->course [dir="forward",arrowhead="diamond",arrowtail="normal"];
+	tutorial->course [dir="forward",arrowhead="diamond",arrowtail="normal"];
+	assessment->course [dir="forward",arrowhead="diamond",arrowtail="normal"];
+	coursework->assessment;
+	exam->assessment;
+
+}
+#+end_src
+** Entity Relationship
+#+BEGIN_EXAMPLE
+  digraph ER{
+          node[shape=box];
+          Book;
+          Customer;
+          Loan;
+          {rank=same;Book,Customer,Loan}
+          Book->Loan[dir="forward",arrowhead="crow",arrowtail="normal"];
+          Customer->Loan[dir="forward",arrowhead="crow",arrowtail="normal"];
+  }
+
+#+END_EXAMPLE
+
+#+begin_src dot :file ./img/ER.png
+  digraph ER{
+          node[shape=box];
+          Book;
+          Customer;
+          Loan;
+          {rank=same;Book,Customer,Loan}
+          Book->Loan[dir="forward",arrowhead="crow",arrowtail="normal"];
+          Customer->Loan[dir="forward",arrowhead="crow",arrowtail="normal"];
+  }
+#+end_src
+* Reference
+Here are the most useful attributes you will need when drawing graphs.  The full list can be found here: http://graphviz.org/doc/info/attrs.html 
+** Graph Attributes
+- label="My Graph"; Label a graph itself
+- rankdir=LR; Lay the graph out from Left to Right, instead of Top to Bottom
+- {rank=same; a, b, c } Group nodes together at the same level of a graph
+- splines="line"; Force edges to be straight, no curves or angles
+- K=0.6; Used to influence the 'spring' used in the layout, Can be used to push nodes further apart, which is especially useful for twopi and sfdp layouts
+** Vertex Attributes
+- [label="Some Label"] Labels the Vertex
+- [color="red"] Colors the Vertex
+- [fillcolor="blue"] Fills the Vertex with the specified colour
+** Edge Attributes
+- [label="Some Label"] Labels the Edge (Useful for Weights)
+- [color="red"] Colors the Vertex (Useful for Paths)
+- [penwidth=2.0] Adjusts the thickness of the edge line, Very useful for Paths
+
+** Size, Background Colour 
+	fixedsize=true;
+	size="1,1"; resolution=72; bgcolor="#C6CFD532";
+* Appendices
+** Further Reading
+- http://linuxdevcenter.com/pub/a/linux/2004/05/06/graphviz_dot.html
+- http://graphs.grevian.org/index.html
+
+** Using Emacs Org Mode
+Emacs org mode is an ideal environment for writing, executing and exporting Dot graphics
+*** Setup
+Download and install graphviz and add the path to the exec-path variable 
+
+You will need to update your .emacs file to load dot as a babel language.  The following is a useful babel setup for dot and other languages
+#+begin_src emacs-lisp
+  (org-babel-do-load-languages
+   (quote org-babel-load-languages)
+   (quote ((emacs-lisp . t)
+	   (java . t)
+           (dot . t)
+           (ditaa . t)
+           (R . t)
+           (python . t)
+           (ruby . t)
+           (gnuplot . t)
+           (clojure . t)
+           (sh . t)
+           (ledger . t)
+           (org . t)
+           (plantuml . t)
+           (latex . t))))
+#+end_src
+*** Embedding Dot in Emacs
+Org mode can interpret different languages by using the Library Of Babel.  To do so, enclose the code in begin_ src and end_ src tags as below.  You'll need to add command line arguments as shown.  
+
+A shortcut to make a begin_ src block is to type <s [TAB]
+#+begin_example
+#+begin_src dot :file ./img/example1.png :cmdline -Kdot -Tpng
+graph graphname { 
+		a -- b; 
+		b -- c;
+		b -- d;
+		d -- a;
+	} 
+#+end_src
+#+end_example
+*** The Command Line
+The section :cmdline -Kdot -Tpng in the #+begin_ src dot :file ./img/example1.png :cmdline -Kdot -Tpng section are command line arguments.  They tell dot how to render and display.
+- -Kdot use dot layout.  The other layouts you can try are Kneato, Kcirco, Ktwopi, Kfdp and Ksfdp for different layouts
+- -Tpng render as png
+The full command line arguments can be found here:  http://graphviz.org/content/command-line-invocation
+
