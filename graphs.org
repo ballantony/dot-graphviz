@@ -75,7 +75,7 @@ graph graphname {
 #+end_example
 #+begin_src dot :file ./img/example1a.png :cmdline -Kdot -Tpng
 graph graphname {
-		rankdir=LR:  //Rank Direction Left to Right
+		rankdir=LR;  //Rank Direction Left to Right
 		a -- b; 
 		b -- c;
 		b -- d;
