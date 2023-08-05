@@ -43,7 +43,7 @@ If you have stumbled across this document by accident whilst looking for my work
 - [[http://tonyballantyne.com/EmacsWritingTips.html][My Emacs Writing Setup]] : How I use Emacs Org Mode to write novels and short stories 
 
 * Setup
-You will need to have the Graphviz suite of programs installed on your computer to follow this tutorial.  Graphiz can be downloaded for free from the Graphviz site: http://www.graphviz.org/Home.php
+You will need to have the Graphviz suite of programs installed on your computer to follow this tutorial.  Graphiz can be downloaded for free from the Graphviz site: https://www.graphviz.org/
 * Basic Examples
 ** Simple Graph
 #+begin_example
@@ -141,7 +141,7 @@ T->P [label="Instructions", fontcolor=darkgreen] // edge T->P
 Here are some of the shapes you can use... box, polygon, ellipse, oval, circle, point, egg, triangle, plaintext, diamond, trapezium, parallelogram, house, pentagon, hexagon, septagon, octagon, doublecircle, doubleoctagon, tripleoctagon
 
 There are lots more available here...
-http://www.graphviz.org/content/node-shapes
+https://graphviz.org/doc/info/shapes.html
 ** Summary 
 #+begin_example
 digraph summary{
@@ -469,5 +469,5 @@ graph graphname {
 The section :cmdline -Kdot -Tpng in the #+begin_ src dot :file ./img/example1.png :cmdline -Kdot -Tpng section are command line arguments.  They tell dot how to render and display.
 - -Kdot use dot layout.  The other layouts you can try are Kneato, Kcirco, Ktwopi, Kfdp and Ksfdp for different layouts
 - -Tpng render as png
-The full command line arguments can be found here:  http://graphviz.org/content/command-line-invocation
+The full command line arguments can be found here:  https://graphviz.org/doc/info/command.html
 
